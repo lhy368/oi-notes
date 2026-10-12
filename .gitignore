@@ -12,6 +12,7 @@ pnpm-debug.log*
 # environment
 .env
 .env.production
+.env.local
 # macOS / Windows
 .DS_Store
 Thumbs.db

@@ -107,7 +107,46 @@ blog/
 
 ---
 
-## 部署
+## 发布到博客园
+
+博客园支持 MetaWeblog API，可以把文章直接推上去，不用手动复制粘贴。
+
+### 一次性配置
+
+1. 登录博客园 → <https://i.cnblogs.com/settings>
+2. 找到「其他设置」→ 勾选 **「允许博客客户端访问（MetaWeblog）」** → 保存
+3. 复制显示出来的**访问令牌**
+4. 把本目录的 `.env.example` 复制为 `.env`，填入三项：
+
+```
+CNBLOGS_BLOG=你的博客名      # 博客地址里那一段，如 cnblogs.com/lhy368 就填 lhy368
+CNBLOGS_USER=你的登录名
+CNBLOGS_TOKEN=访问令牌
+```
+
+`.env` 已被 `.gitignore` 忽略，不会进 Git。
+
+### 日常发布
+
+```bash
+npm run publish -- --list              # 看有哪些文章、各自发布状态
+npm run publish -- <slug>              # 发布一篇
+npm run publish -- --all               # 发布所有还没发布的
+npm run publish -- <slug> --draft      # 存为草稿（不公开）
+npm run publish -- <slug> --update     # 更新已发布的
+```
+
+已发布文章的 postId 记录在 `.published.json`，用于后续更新。
+
+> ⚠️ 脚本提交的是 **Markdown 原文**，靠分类里的 `[Markdown]` 标记让博客园渲染。
+> 别删掉这个分类，否则文章会显示成纯文本。
+
+---
+
+## 部署（备选：自建站）
+
+> 这一节是自建静态站的部署方式。国内访问需自备域名，否则 `workers.dev` / `pages.dev`
+> 在大陆被 DNS 污染打不开。如果博客主要面向国内读者，用上面的博客园方案。
 
 ### Cloudflare Pages（推荐，国内访问相对稳）
 
