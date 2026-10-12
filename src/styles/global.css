@@ -1,0 +1,428 @@
+/* ============================================================
+   设计变量 —— 自动跟随系统浅色/深色
+   ============================================================ */
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f8;
+  --bg-hover: #f2f2f4;
+  --fg: #18181b;
+  --fg-muted: #71717a;
+  --border: #e4e4e7;
+  --accent: #2563eb;
+  --accent-subtle: #eff6ff;
+  --code-bg: #f6f8fa;
+
+  --radius: 8px;
+  --wrap: 760px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono",
+    Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e10;
+    --bg-subtle: #17171a;
+    --bg-hover: #1f1f23;
+    --fg: #e6e6e9;
+    --fg-muted: #97979f;
+    --border: #2a2a2f;
+    --accent: #7aa2f7;
+    --accent-subtle: #1a1f2e;
+    --code-bg: #17171a;
+  }
+}
+
+/* ============================================================
+   基础
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ============================================================
+   顶栏 / 页脚
+   ============================================================ */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.brand {
+  font-weight: 650;
+  font-size: 1.05rem;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+.brand:hover {
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 18px;
+  font-size: 0.925rem;
+}
+.site-header nav a {
+  color: var(--fg-muted);
+}
+.site-header nav a:hover {
+  color: var(--fg);
+  text-decoration: none;
+}
+.site-header nav a.active {
+  color: var(--fg);
+  font-weight: 550;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 72px;
+  padding: 28px 0 40px;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+}
+
+main {
+  padding-top: 40px;
+  min-height: 60vh;
+}
+
+/* ============================================================
+   首页
+   ============================================================ */
+.intro {
+  margin-bottom: 48px;
+}
+.intro h1 {
+  font-size: 1.9rem;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.intro p {
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.year-group {
+  margin-bottom: 40px;
+}
+.year {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin: 0 0 4px;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.post-list li {
+  border-bottom: 1px solid var(--border);
+}
+.post-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 10px;
+  margin: 0 -10px;
+  border-radius: var(--radius);
+  color: var(--fg);
+}
+.post-list a:hover {
+  background: var(--bg-subtle);
+  text-decoration: none;
+}
+.post-list time {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  flex: 0 0 auto;
+  padding-top: 2px;
+}
+.post-title {
+  flex: 1 1 auto;
+  font-weight: 500;
+}
+.post-tags {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+a.tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* ============================================================
+   文章页
+   ============================================================ */
+.post-header {
+  margin-bottom: 32px;
+}
+.post-header h1 {
+  font-size: 1.75rem;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+.post-meta .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.verdict {
+  color: var(--accent);
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.post-nav span {
+  color: var(--fg-muted);
+}
+
+/* ============================================================
+   正文排版
+   ============================================================ */
+.prose {
+  font-size: 1rem;
+}
+.prose h2 {
+  font-size: 1.3rem;
+  margin: 2.2em 0 0.7em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+.prose h3 {
+  font-size: 1.08rem;
+  margin: 1.8em 0 0.6em;
+}
+.prose h4 {
+  font-size: 0.98rem;
+  margin: 1.5em 0 0.5em;
+  color: var(--fg-muted);
+}
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1em;
+}
+.prose li {
+  margin: 0.3em 0;
+}
+.prose li > ul,
+.prose li > ol {
+  margin: 0.3em 0;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.prose blockquote {
+  margin: 1.2em 0;
+  padding: 2px 16px;
+  border-left: 3px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.855rem;
+  line-height: 1.65;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  margin: 1.2em 0;
+}
+
+/* Shiki 双主题：跟随系统切换代码配色 */
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+/* 表格 —— 比赛日志里大量使用 */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.3em 0;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 7px 12px;
+  text-align: left;
+}
+.prose th {
+  background: var(--bg-subtle);
+  font-weight: 600;
+}
+.prose tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--bg-subtle) 55%, transparent);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5em 0;
+}
+
+/* 数学公式过长时可横向滚动 */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
+
+/* 标题锚点 */
+.prose :is(h2, h3, h4) {
+  scroll-margin-top: 72px;
+}
+
+/* ============================================================
+   标签页
+   ============================================================ */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+.tag-cloud a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--fg);
+  background: var(--bg-subtle);
+  font-size: 0.9rem;
+}
+.tag-cloud a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+.tag-cloud .count {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width: 560px) {
+  body {
+    font-size: 15.5px;
+  }
+  .post-list a {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+  .post-tags {
+    width: 100%;
+  }
+  .intro h1 {
+    font-size: 1.6rem;
+  }
+}

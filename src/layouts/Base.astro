@@ -1,0 +1,63 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = '算法竞赛题解、比赛复盘与专题总结' } = Astro.props;
+
+const SITE = 'OI Notes';
+const year = new Date().getFullYear();
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/', label: '文章' },
+  { href: '/tags', label: '标签' },
+  { href: '/about', label: '关于' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title ? `${title} · ${SITE}` : SITE}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/">{SITE}</a>
+        <nav>
+          {
+            nav.map(({ href, label }) => (
+              <a href={href} class:list={[{ active: isActive(href) }]}>
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>© {year} 林恒毅 · 用 Astro 构建</p>
+      </div>
+    </footer>
+  </body>
+</html>
